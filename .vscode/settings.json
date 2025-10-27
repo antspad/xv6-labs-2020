@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "exception": "c",
+        "memory_resource": "c",
+        "iosfwd": "c",
+        "new": "c",
+        "ostream": "c",
+        "stop_token": "c",
+        "streambuf": "c",
+        "cstdarg": "c"
+    }
+}

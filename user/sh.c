@@ -87,6 +87,7 @@ runcmd(struct cmd *cmd)
       exit(1);
     }
     runcmd(rcmd->cmd);
+  
     break;
 
   case LIST:
