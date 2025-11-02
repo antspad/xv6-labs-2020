@@ -126,7 +126,7 @@ found:
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
-
+  p->kama_syscall_trace = 0;
   return p;
 }
 
@@ -276,6 +276,8 @@ fork(void)
   np->sz = p->sz;
 
   np->parent = p;
+
+  np->kama_syscall_trace = p->kama_syscall_trace; 
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
@@ -691,5 +693,16 @@ procdump(void)
       state = "???";
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
+  }
+}
+
+void 
+kama_procnum(uint64* dst){
+  *dst=0;
+  struct proc* p;
+  for(p=proc;p<&proc[NPROC]; ++p){
+    if(p->state!=UNUSED){
+      (*dst)++;
+    }
   }
 }

@@ -6,6 +6,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "sysinfo.h"
 
 uint64
 sys_exit(void)
@@ -81,6 +82,33 @@ sys_kill(void)
   if(argint(0, &pid) < 0)
     return -1;
   return kill(pid);
+}
+
+uint64
+sys_trace(void){
+  int mask;
+  if(argint(0, &mask)<0){
+    return -1;
+  }
+  myproc()->kama_syscall_trace= mask;
+  return 0;
+}
+
+uint64 
+sys_sysinfo(void){
+  struct sysinfo info;
+  kama_freebytes(&info.freemem);
+  kama_procnum(&info.nproc);
+
+  //gain user vitual address
+  uint64 dstaddr;
+  argaddr(0, &dstaddr);
+
+  //copy from kernel to user space
+  if(copyout(myproc()->pagetable, dstaddr, (char*)&info, sizeof info)<0){//start of address(char*), length of struct
+    return -1;
+  }
+  
 }
 
 // return how many clock tick interrupts have occurred
