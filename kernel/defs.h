@@ -169,7 +169,8 @@ uint64          uvmalloc(pagetable_t, uint64, uint64);
 uint64          uvmdealloc(pagetable_t, uint64, uint64);
 void            kama_kvm_free_kernelpgtbl(pagetable_t);
 pagetable_t     kama_kvminit_newpgtbl();
-
+uint64          kama_kvmdealloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz);
+int             kama_kvmcopymappings(pagetable_t src, pagetable_t dst, uint64 start, uint64 sz);
 
 #ifdef SOL_COW
 #else
